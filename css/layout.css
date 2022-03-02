@@ -1,0 +1,61 @@
+.hidden {
+  display: none !important;
+}
+
+.container {
+  max-width: 575px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.row {
+  display: flex;
+}
+
+.column-half {
+  width: 100%;
+}
+
+.header {
+  width: 50%;
+  margin: 0;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.position-relative {
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 900px;
+  }
+
+  .column-full,
+  .column-half {
+    padding: 1 0;
+  }
+
+  .column-half {
+    width: 50%;
+  }
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.margin-top {
+  margin-top: 5rem;
+}
