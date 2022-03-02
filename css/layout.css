@@ -34,16 +34,22 @@
 
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 900px;
+    max-width: 100%;
+    height: 100vh;
+    margin: auto;
+    padding: 1rem 0;
+    vertical-align: middle;
+    display: flex;
   }
 
-  .column-full,
-  .column-half {
-    padding: 1 0;
+  .row {
+    display: flex;
+    width: 100%;
   }
 
   .column-half {
     width: 50%;
+    height: 50%;
   }
 }
 
@@ -55,14 +61,39 @@
   margin-top: 4rem;
 }
 
-.margin-side {
-  margin: 0 0.5rem;
-}
-
 #home-link {
   width: 50%;
 }
 
 #generate-link {
   width: 50%;
+}
+
+.vertical-center {
+  vertical-align: middle;
+}
+
+.padding-sides {
+  padding: 0 2rem;
+}
+
+.align-center {
+  align-items: center;
+}
+
+#home-text {
+  padding: 0 7rem;
+  margin-bottom: 4rem;
+}
+
+.flex-direction {
+  flex-direction: column;
+}
+
+.margin-bottom {
+  margin-bottom: 4rem;
+}
+
+.justify-center {
+  justify-content: center;
 }
