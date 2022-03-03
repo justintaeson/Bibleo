@@ -49,7 +49,7 @@
 
   .column-half {
     width: 50%;
-    height: 50%;
+    height: 60%;
   }
 }
 
@@ -74,7 +74,7 @@
 }
 
 .padding-sides {
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .align-center {
@@ -84,6 +84,7 @@
 #home-text {
   padding: 0 7rem;
   margin-bottom: 4rem;
+  font-size: 14px;
 }
 
 .flex-direction {
@@ -91,9 +92,13 @@
 }
 
 .margin-bottom {
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 
 .justify-center {
   justify-content: center;
+}
+
+.padding-bottom {
+  padding-bottom: 2rem;
 }
