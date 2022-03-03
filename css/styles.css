@@ -6,6 +6,7 @@
   width: 100%;
   z-index: -1;
   object-fit: cover;
+  padding-left: 2rem;
 }
 
 #home-title {
@@ -53,4 +54,8 @@
   font-size: 18px;
   padding: 1rem 0;
   text-align: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
