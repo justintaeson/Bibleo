@@ -11,6 +11,7 @@ function generatePage(event) {
   getVerse();
 }
 
+// randomizes a verse to the user
 function getVerse() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://labs.bible.org/api/?passage=random&type=json');
@@ -33,6 +34,7 @@ function getVerse() {
   });
 }
 
+// regenerates a verse whenever the user was already given a verse or searched for a verse
 var $regenerateVerse = document.querySelector('#regenerate-button');
 $regenerateVerse.addEventListener('click', regenerateVerse);
 
@@ -74,6 +76,7 @@ function showSearch(event) {
   viewSwapper();
 }
 
+// universal function to view swap whenver needed
 function viewSwapper() {
   if (data.view === 'home-page') {
     $generatePage.className = 'hidden';
@@ -90,6 +93,7 @@ function viewSwapper() {
   }
 }
 
+// allows the user to search for a specific verse
 var $searchBar = document.querySelector('#search-bar');
 var $form = document.querySelector('form');
 $form.addEventListener('submit', searchVerse);
@@ -125,6 +129,7 @@ function searchVerse(event) {
   });
 }
 
+// function that sets the link of 'continue reading' to the verse you searched for or received whenever you click on it
 var $continueReading = document.querySelector('#continue-reading');
 $continueReading.addEventListener('click', function (event) {
   var $verseTitle = document.getElementById('verse-title').textContent;
