@@ -45,7 +45,6 @@ function regenerateVerse(event) {
 
 var $homeLink = document.querySelector('#home-link');
 $homeLink.addEventListener('click', showHome);
-
 function showHome(event) {
   data.view = 'home-page';
   var $ul = document.querySelector('ul');
@@ -57,7 +56,6 @@ function showHome(event) {
 
 var $generateLink = document.querySelector('#generate-link');
 $generateLink.addEventListener('click', showGenerate);
-
 function showGenerate(event) {
   if (data.view === 'home-page') {
     getVerse();
@@ -88,4 +86,38 @@ function viewSwapper() {
     $generatePage.className = 'hidden';
     $searchPage.className = 'container flex-wrap align-content-center';
   }
+}
+
+var $searchBar = document.querySelector('#search-bar');
+var $form = document.querySelector('form');
+$form.addEventListener('submit', searchVerse);
+
+function searchVerse(event) {
+  event.preventDefault();
+  data.view = 'generate-page';
+  viewSwapper();
+  var $ul = document.querySelector('ul');
+  while ($ul.firstChild) {
+    $ul.removeChild($ul.firstChild);
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://bible-api.com/' + $searchBar.value);
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    var response = JSON.parse(xhr.response);
+
+    var $li = document.createElement('li');
+    var $h3 = document.createElement('h3');
+    var $p = document.createElement('p');
+    $p.className = 'verse';
+
+    var $ul = document.querySelector('ul');
+    $ul.appendChild($li);
+    $li.appendChild($h3);
+    $h3.textContent = response.reference;
+    $h3.appendChild($p);
+    $p.textContent = '"' + response.text + '" ';
+
+    $form.reset();
+  });
 }
