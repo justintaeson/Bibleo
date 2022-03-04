@@ -42,3 +42,50 @@ function regenerateVerse(event) {
 
   getVerse();
 }
+
+var $homeLink = document.querySelector('#home-link');
+$homeLink.addEventListener('click', showHome);
+
+function showHome(event) {
+  data.view = 'home-page';
+  var $ul = document.querySelector('ul');
+  while ($ul.firstChild) {
+    $ul.removeChild($ul.firstChild);
+  }
+  viewSwapper();
+}
+
+var $generateLink = document.querySelector('#generate-link');
+$generateLink.addEventListener('click', showGenerate);
+
+function showGenerate(event) {
+  if (data.view === 'home-page') {
+    getVerse();
+  }
+  data.view = 'generate-page';
+  viewSwapper();
+}
+
+var $searchPage = document.querySelector('#search-page');
+var $searchLink = document.querySelector('#search-link');
+$searchLink.addEventListener('click', showSearch);
+function showSearch(event) {
+  data.view = 'search-page';
+  viewSwapper();
+}
+
+function viewSwapper() {
+  if (data.view === 'home-page') {
+    $generatePage.className = 'hidden';
+    $searchPage.className = 'hidden';
+    $homePage.className = 'container';
+  } else if (data.view === 'generate-page') {
+    $homePage.className = 'hidden';
+    $searchPage.className = 'hidden';
+    $generatePage.className = 'container flex-wrap align-content-center';
+  } else if (data.view === 'search-page') {
+    $homePage.className = 'hidden';
+    $generatePage.className = 'hidden';
+    $searchPage.className = 'container flex-wrap align-content-center';
+  }
+}

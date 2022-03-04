@@ -17,23 +17,24 @@
     <div class="row header">
       <div class="column-half display-flex text-center">
         <a class="display-flex">
-          <h3 id="home-link" class="margin-auto">Home</h3>
+          <h3 id="home-link" class="margin-auto cursor-pointer">Home</h3>
         </a>
         <a class="display-flex">
-          <h3 id="generate-link" class="margin-auto">Generate</h3>
+          <h3 id="generate-link" class="margin-auto cursor-pointer">Generate</h3>
         </a>
       </div>
       <div class="column-half display-flex text-center">
         <a class="display-flex">
-          <h3 id="journal-link" class="margin-auto">  </h3>
+          <h3 id="journal-link" class="margin-auto cursor-pointer">  </h3>
         </a>
         <a class="display-flex">
-          <h3 id="search-link" class="margin-auto">Search</h3>
+          <h3 id="search-link" class="margin-auto cursor-pointer">Search</h3>
         </a>
 
       </div>
     </div>
   </header>
+
   <main>
     <div id="home-page" class="container">
       <div class="row flex-wrap">
@@ -58,6 +59,7 @@
         </div>
       </div>
     </div>
+
     <div id="generate-page" class="container hidden">
       <div class="row height-fit justify-center text-center">
         <ul style="list-style:none"></ul>
@@ -66,7 +68,19 @@
         <button id="regenerate-button" class="margin-auto bold cursor-pointer new-button">New Verse</button>
       </div>
     </div>
+
+    <div id="search-page" class="container flex-wrap align-content-center hidden">
+      <div class="row height-fit justify-center text-center">
+        <form>
+          <input id="search-bar" type="text" placeholder=" i.e. John 3:16">
+        </form>
+      </div>
+      <div class="row max-height">
+        <button id="search-button" class="margin-auto bold cursor-pointer new-button">Search</button>
+      </div>
+    </div>
   </main>
+
   <footer>
     <div class="row footer">
       <p class="margin-auto">“Thus says the Lord, the God of Israel: Write in a book all the words that I have spoken to you.” - Jeremiah 30:2

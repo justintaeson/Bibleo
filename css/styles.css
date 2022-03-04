@@ -64,3 +64,11 @@
   font-size: 18px;
   font-weight: 400;
 }
+
+#search-bar {
+  width: 30rem;
+  height: 3rem;
+  border-style: solid;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
