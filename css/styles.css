@@ -79,3 +79,11 @@
   font-weight: 400;
   margin-bottom: 1rem;
 }
+
+.width-rem {
+  width: 10rem;
+}
+
+#save-button {
+  margin-bottom: 1rem;
+}
