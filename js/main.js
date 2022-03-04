@@ -38,8 +38,9 @@ $regenerateVerse.addEventListener('click', regenerateVerse);
 function regenerateVerse(event) {
   var $ul = document.querySelector('ul');
   var $li = document.querySelector('li');
-  $ul.removeChild($li);
-
+  if ($ul.hasChildNodes() === true) {
+    $ul.removeChild($li);
+  }
   getVerse();
 }
 
