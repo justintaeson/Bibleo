@@ -11,6 +11,7 @@ function generatePage(event) {
   getVerse();
 }
 
+// randomizes a verse to the user
 function getVerse() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://labs.bible.org/api/?passage=random&type=json');
@@ -19,6 +20,7 @@ function getVerse() {
     var response = JSON.parse(xhr.response);
     var $li = document.createElement('li');
     var $h3 = document.createElement('h3');
+    $h3.id = 'verse-title';
     var $p = document.createElement('p');
     $p.className = 'verse';
 
@@ -26,19 +28,110 @@ function getVerse() {
     $ul.appendChild($li);
     $li.appendChild($h3);
     $h3.textContent = response[0].bookname + ' ' + response[0].chapter + ':' + response[0].verse;
-    $h3.appendChild($p);
+    $li.appendChild($p);
     $p.textContent = '"' + response[0].text + '" ';
 
   });
 }
 
+// regenerates a verse whenever the user was already given a verse or searched for a verse
 var $regenerateVerse = document.querySelector('#regenerate-button');
 $regenerateVerse.addEventListener('click', regenerateVerse);
 
 function regenerateVerse(event) {
   var $ul = document.querySelector('ul');
   var $li = document.querySelector('li');
-  $ul.removeChild($li);
-
+  if ($ul.hasChildNodes() === true) {
+    $ul.removeChild($li);
+  }
   getVerse();
 }
+
+var $homeLink = document.querySelector('#home-link');
+$homeLink.addEventListener('click', showHome);
+function showHome(event) {
+  data.view = 'home-page';
+  var $ul = document.querySelector('ul');
+  while ($ul.firstChild) {
+    $ul.removeChild($ul.firstChild);
+  }
+  viewSwapper();
+}
+
+var $generateLink = document.querySelector('#generate-link');
+$generateLink.addEventListener('click', showGenerate);
+function showGenerate(event) {
+  if (data.view === 'home-page') {
+    getVerse();
+  }
+  data.view = 'generate-page';
+  viewSwapper();
+}
+
+var $searchPage = document.querySelector('#search-page');
+var $searchLink = document.querySelector('#search-link');
+$searchLink.addEventListener('click', showSearch);
+function showSearch(event) {
+  data.view = 'search-page';
+  viewSwapper();
+}
+
+// universal function to view swap whenver needed
+function viewSwapper() {
+  if (data.view === 'home-page') {
+    $generatePage.className = 'hidden';
+    $searchPage.className = 'hidden';
+    $homePage.className = 'container';
+  } else if (data.view === 'generate-page') {
+    $homePage.className = 'hidden';
+    $searchPage.className = 'hidden';
+    $generatePage.className = 'container flex-wrap align-content-center';
+  } else if (data.view === 'search-page') {
+    $homePage.className = 'hidden';
+    $generatePage.className = 'hidden';
+    $searchPage.className = 'container flex-wrap align-content-center';
+  }
+}
+
+// allows the user to search for a specific verse
+var $searchBar = document.querySelector('#search-bar');
+var $form = document.querySelector('form');
+$form.addEventListener('submit', searchVerse);
+
+function searchVerse(event) {
+  event.preventDefault();
+  data.view = 'generate-page';
+  viewSwapper();
+  var $ul = document.querySelector('ul');
+  while ($ul.firstChild) {
+    $ul.removeChild($ul.firstChild);
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://bible-api.com/' + $searchBar.value);
+  xhr.send();
+  xhr.addEventListener('load', function () {
+    var response = JSON.parse(xhr.response);
+
+    var $li = document.createElement('li');
+    var $h3 = document.createElement('h3');
+    $h3.id = 'verse-title';
+    var $p = document.createElement('p');
+    $p.className = 'verse';
+
+    var $ul = document.querySelector('ul');
+    $ul.appendChild($li);
+    $li.appendChild($h3);
+    $h3.textContent = response.reference;
+    $li.appendChild($p);
+    $p.textContent = '"' + response.text + '" ';
+
+    $form.reset();
+  });
+}
+
+// function that sets the link of 'continue reading' to the verse you searched for or received whenever you click on it
+var $continueReading = document.querySelector('#continue-reading');
+$continueReading.addEventListener('click', function (event) {
+  var $verseTitle = document.getElementById('verse-title').textContent;
+  $continueReading.setAttribute('href', 'https://www.biblegateway.com/passage/?search=' + $verseTitle + '&version=WEB');
+});
