@@ -6,7 +6,7 @@ var $generatePage = document.querySelector('#generate-page');
 
 function generatePage(event) {
   $homePage.className = 'hidden';
-  $generatePage.className = 'container flex-direction';
+  $generatePage.className = 'container flex-wrap align-content-center';
   data.view = 'generate-page';
   getVerse();
 }
@@ -28,5 +28,17 @@ function getVerse() {
     $h3.textContent = response[0].bookname + ' ' + response[0].chapter + ':' + response[0].verse;
     $h3.appendChild($p);
     $p.textContent = '"' + response[0].text + '" ';
+
   });
+}
+
+var $regenerateVerse = document.querySelector('#regenerate-button');
+$regenerateVerse.addEventListener('click', regenerateVerse);
+
+function regenerateVerse(event) {
+  var $ul = document.querySelector('ul');
+  var $li = document.querySelector('li');
+  $ul.removeChild($li);
+
+  getVerse();
 }

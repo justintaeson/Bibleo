@@ -51,6 +51,14 @@
     width: 50%;
     height: 60%;
   }
+
+  .desktop-margin {
+    margin-top: 10rem auto 0;
+  }
+
+  .height-fit {
+    height: fit-content;
+  }
 }
 
 .margin-auto {
@@ -101,4 +109,12 @@
 
 .padding-bottom {
   padding-bottom: 2rem;
+}
+
+ul {
+  padding: 0 5rem;
+}
+
+.align-content-center {
+  align-content: center;
 }
