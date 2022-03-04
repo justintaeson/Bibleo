@@ -5,21 +5,28 @@ var $homePage = document.querySelector('#home-page');
 var $generatePage = document.querySelector('#generate-page');
 
 function generatePage(event) {
-  if (data.view === 'home-page') {
-    $homePage.className = 'hidden';
-    $generatePage.className = 'container';
-    data.view = 'generate-page';
-  } else if (data.view === 'generate-page') {
-    document.createElement('li');
-  }
+  $homePage.className = 'hidden';
+  $generatePage.className = 'container flex-direction';
+  data.view = 'generate-page';
+  getVerse();
 }
 
 function getVerse() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.scripture.api.bible/v1/bibles/66c22495370cdfc0-01/books');
-  xhr.setRequestHeader('api-key', 'f1390b6091f5f3451d5251d499968db3');
-  xhr.responseType = 'json';
+  xhr.open('GET', 'https://labs.bible.org/api/?passage=random&type=json');
   xhr.send();
-}
+  xhr.addEventListener('load', function () {
+    var response = JSON.parse(xhr.response);
+    var $li = document.createElement('li');
+    var $h3 = document.createElement('h3');
+    var $p = document.createElement('p');
+    $p.className = 'verse';
 
-getVerse();
+    var $ul = document.querySelector('ul');
+    $ul.appendChild($li);
+    $li.appendChild($h3);
+    $h3.textContent = response[0].bookname + ' ' + response[0].chapter + ':' + response[0].verse;
+    $h3.appendChild($p);
+    $p.textContent = '"' + response[0].text + '" ';
+  });
+}

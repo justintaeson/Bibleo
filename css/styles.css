@@ -23,7 +23,7 @@
   font-weight: bold;
 }
 
-#new-button {
+.new-button {
   background-color: #df9254;
   color: white;
   border-radius: 15px;
@@ -58,4 +58,9 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.verse {
+  font-size: 18px;
+  font-weight: 400;
 }
