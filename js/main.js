@@ -19,6 +19,7 @@ function getVerse() {
     var response = JSON.parse(xhr.response);
     var $li = document.createElement('li');
     var $h3 = document.createElement('h3');
+    $h3.id = 'verse-title';
     var $p = document.createElement('p');
     $p.className = 'verse';
 
@@ -26,7 +27,7 @@ function getVerse() {
     $ul.appendChild($li);
     $li.appendChild($h3);
     $h3.textContent = response[0].bookname + ' ' + response[0].chapter + ':' + response[0].verse;
-    $h3.appendChild($p);
+    $li.appendChild($p);
     $p.textContent = '"' + response[0].text + '" ';
 
   });
@@ -109,6 +110,7 @@ function searchVerse(event) {
 
     var $li = document.createElement('li');
     var $h3 = document.createElement('h3');
+    $h3.id = 'verse-title';
     var $p = document.createElement('p');
     $p.className = 'verse';
 
@@ -116,9 +118,15 @@ function searchVerse(event) {
     $ul.appendChild($li);
     $li.appendChild($h3);
     $h3.textContent = response.reference;
-    $h3.appendChild($p);
+    $li.appendChild($p);
     $p.textContent = '"' + response.text + '" ';
 
     $form.reset();
   });
 }
+
+var $continueReading = document.querySelector('#continue-reading');
+$continueReading.addEventListener('click', function (event) {
+  var $verseTitle = document.getElementById('verse-title').textContent;
+  $continueReading.setAttribute('href', 'https://www.biblegateway.com/passage/?search=' + $verseTitle + '&version=WEB');
+});
