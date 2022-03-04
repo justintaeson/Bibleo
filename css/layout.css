@@ -77,6 +77,14 @@
   width: 50%;
 }
 
+#journal-link {
+  width: 50%;
+}
+
+#search-link {
+  width: 50%;
+}
+
 .vertical-center {
   vertical-align: middle;
 }
@@ -117,4 +125,8 @@ ul {
 
 .align-content-center {
   align-content: center;
+}
+
+a {
+  width: 100%;
 }
