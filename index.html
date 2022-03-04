@@ -8,12 +8,62 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="font">
   <header>
+    <div class="row header">
+      <div class="column-half display-flex text-center">
+        <h3 id="home-link">Home</h3>
+        <h3 id="generate-link">Generate</h3>
+      </div>
+      <div class="column-half">
+        <h3></h3>
+        <h3></h3>
+      </div>
+    </div>
   </header>
   <main>
+    <div id="home-page" class="container">
+      <div class="row flex-wrap">
+        <div class="column-half position-relative margin-auto display-flex">
+          <p id="home-title">Bibleo</p>
+          <video class="padding-sides padding-bottom" id="background-video" autoplay loop muted poster="images/black-background.png">
+            <source src="images/Bibleo-background-video.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="column-half margin-auto display-flex flex-direction justify-center">
+          <div class="row align-start padding-bottom">
+            <button id="new-button" class="margin-auto bold cursor-pointer new-button">New Verse</button>
+          </div>
+          <div class="row align-center">
+            <p class="margin-auto bold">About Bibleo:</p>
+          </div>
+          <div class="row text-center">
+            <p id="home-text">Bibleo is a place where the Bible and your personal story comes together. Bilbeo is an application that gives you the
+            verse of the day and allows you to journal on the verse that has been given.<br><br>Here at Bibleo, we believe in the power of the Bible and the power of journaling.<br><br>To get started, you can either click on the button above or on the generate button in the header to generate your
+            verse of the day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="generate-page" class="container hidden">
+      <div class="row height-fit justify-center text-center">
+        <ul style="list-style:none"></ul>
+      </div>
+      <div class="row max-height">
+        <button id="regenerate-button" class="margin-auto bold cursor-pointer new-button">New Verse</button>
+      </div>
+    </div>
   </main>
+  <footer>
+    <div class="row footer">
+      <p class="margin-auto">“Thus says the Lord, the God of Israel: Write in a book all the words that I have spoken to you.” - Jeremiah 30:2
+      </p>
+    </div>
+  </footer>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>

@@ -1,0 +1,66 @@
+.font {
+  font-family: "Gothic A1", sans-serif;
+}
+
+#background-video {
+  width: 100%;
+  z-index: -1;
+  object-fit: cover;
+  padding-left: 2rem;
+}
+
+#home-title {
+  position: absolute;
+  margin: 0 auto;
+  color: white;
+  left: 42%;
+  top: 40%;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.new-button {
+  background-color: #df9254;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  padding: 1rem 2rem;
+}
+
+.header {
+  background-color: #54535a;
+  font-weight: 400;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: white;
+  font-size: 15px;
+  padding: 0.5rem 0;
+}
+
+.footer {
+  background-color: #54535a;
+  font-weight: 100;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  font-size: 18px;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.verse {
+  font-size: 18px;
+  font-weight: 400;
+}

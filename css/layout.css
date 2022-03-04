@@ -1,0 +1,120 @@
+.hidden {
+  display: none !important;
+}
+
+.container {
+  max-width: 575px;
+  margin: 5rem auto;
+  padding: 1rem 0;
+}
+
+.row {
+  display: flex;
+}
+
+.column-half {
+  width: 100%;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.position-relative {
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 100%;
+    height: 100vh;
+    margin: auto;
+    padding: 1rem 0;
+    vertical-align: middle;
+    display: flex;
+  }
+
+  .row {
+    display: flex;
+    width: 100%;
+  }
+
+  .column-half {
+    width: 50%;
+    height: 60%;
+  }
+
+  .desktop-margin {
+    margin-top: 10rem auto 0;
+  }
+
+  .height-fit {
+    height: fit-content;
+  }
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.margin-top {
+  margin-top: 4rem;
+}
+
+#home-link {
+  width: 50%;
+}
+
+#generate-link {
+  width: 50%;
+}
+
+.vertical-center {
+  vertical-align: middle;
+}
+
+.padding-sides {
+  padding: 0 1rem;
+}
+
+.align-center {
+  align-items: center;
+}
+
+#home-text {
+  padding: 0 7rem;
+  margin-bottom: 4rem;
+  font-size: 16px;
+}
+
+.flex-direction {
+  flex-direction: column;
+}
+
+.margin-bottom {
+  margin-bottom: 1rem;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.padding-bottom {
+  padding-bottom: 2rem;
+}
+
+ul {
+  padding: 0 5rem;
+}
+
+.align-content-center {
+  align-content: center;
+}
