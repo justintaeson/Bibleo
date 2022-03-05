@@ -59,6 +59,10 @@
   .height-fit {
     height: fit-content;
   }
+
+  #saved-entries {
+    display: flex;
+  }
 }
 
 .margin-auto {
@@ -117,4 +121,8 @@ a {
 
 form {
   width: 100%;
+}
+
+.padding-around {
+  padding: 1rem;
 }

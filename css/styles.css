@@ -87,3 +87,10 @@
 #save-button {
   margin-bottom: 1rem;
 }
+
+.saved-verse-box {
+  background: #df9254;
+  border-radius: 15px;
+  width: 100%;
+  padding: 1rem;
+}
