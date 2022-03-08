@@ -59,6 +59,15 @@
   .height-fit {
     height: fit-content;
   }
+
+  .desktop-display-flex {
+    display: flex;
+  }
+}
+
+#saved-entries {
+  display: inline;
+  width: 100%;
 }
 
 .margin-auto {
@@ -117,4 +126,8 @@ a {
 
 form {
   width: 100%;
+}
+
+.padding-around {
+  padding: 1rem;
 }

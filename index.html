@@ -25,7 +25,7 @@
       </div>
       <div class="column-half display-flex text-center">
         <a class="display-flex">
-          <h3 id="journal-link" class="margin-auto cursor-pointer">  </h3>
+          <h3 id="journal-link" class="margin-auto cursor-pointer">Journal</h3>
         </a>
         <a class="display-flex">
           <h3 id="search-link" class="margin-auto cursor-pointer">Search</h3>
@@ -68,7 +68,10 @@
         <a id="continue-reading" href="" target="_blank">Continue Reading</a>
       </div>
       <div class="row max-height">
-        <button id="regenerate-button" class="margin-auto bold cursor-pointer new-button">New Verse</button>
+        <button id="save-button" class="margin-auto bold cursor-pointer new-button width-rem">Save</button>
+      </div>
+      <div class="row max-height">
+        <button id="regenerate-button" class="margin-auto bold cursor-pointer new-button width-rem">New Verse</button>
       </div>
     </div>
 
@@ -81,6 +84,13 @@
           <input type="submit" id="search-submit" class="margin-auto bold cursor-pointer new-button">
         </div>
       </form>
+    </div>
+
+    <div id="journal-page" class="container flex-wrap hidden">
+      <div class="row height-fit text-center">
+        <ul id="saved-entries" style="list-style:none" class="margin-top">
+        </ul>
+      </div>
     </div>
   </main>
 

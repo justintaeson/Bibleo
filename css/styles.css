@@ -79,3 +79,19 @@
   font-weight: 400;
   margin-bottom: 1rem;
 }
+
+.width-rem {
+  width: 10rem;
+}
+
+#save-button {
+  margin-bottom: 1rem;
+}
+
+.saved-verse-box {
+  background: #df9254;
+  border-radius: 15px;
+  width: 100%;
+  padding: 1rem;
+  color: white;
+}
