@@ -36,7 +36,7 @@
   </header>
 
   <main>
-    <div id="home-page" class="container">
+    <div id="home-page" class="container hidden">
       <div class="row flex-wrap">
         <div class="column-half position-relative margin-auto display-flex">
           <p id="home-title">Bibleo</p>
@@ -91,6 +91,20 @@
         <ul id="saved-entries" style="list-style:none" class="margin-top">
         </ul>
       </div>
+    </div>
+
+    <div id="edit-page" class="container flex-wrap">
+      <form class="margin-auto display-flex flex-direction">
+        <div class="row margin-auto justify-center">
+          <ul></ul>
+        </div>
+        <div class="row margin-auto justify-center">
+          <textarea id="text-area" name="journal-entry" rows="20" cols="100" placeholder="Start your journal entry..."></textarea>
+        </div>
+        <div class="row margin-auto justify-center">
+          <button class="margin-auto bold cursor-pointer new-button" type="submit">SAVE</button>
+        </div>
+      </form>
     </div>
   </main>
 
