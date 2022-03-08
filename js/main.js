@@ -174,6 +174,10 @@ function saveVerse(event) {
   var $verseTitle = document.getElementById('verse-title').textContent;
   $verseP.textContent = $verse + ' - ' + $verseTitle;
 
+  var entry = {};
+  entry.verse = $verseP.textContent;
+  data.entries.push(entry);
+
   data.view = 'journal-page';
   viewSwapper();
 }
