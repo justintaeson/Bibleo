@@ -156,19 +156,20 @@ function saveVerse(event) {
   var $verseDiv = document.createElement('div');
   var $verseP = document.createElement('p');
   var $entryDiv = document.createElement('div');
-  var $entryP = document.createElement('p');
+  var $newEntryButton = document.createElement('button');
 
   $ul.appendChild($li);
   $li.appendChild($verseDiv);
   $li.appendChild($entryDiv);
   $verseDiv.appendChild($verseP);
-  $entryDiv.appendChild($entryP);
+  $entryDiv.appendChild($newEntryButton);
 
   $li.className = 'desktop-display-flex';
   $verseDiv.className = 'column-half';
   $verseP.className = 'saved-verse-box';
-  $entryDiv.className = 'column-half';
-  $entryP.className = 'padding-around;';
+  $entryDiv.className = 'column-half margin-auto';
+  $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
+  $newEntryButton.textContent = 'New';
 
   var $verse = document.getElementById('verse').textContent;
   var $verseTitle = document.getElementById('verse-title').textContent;
