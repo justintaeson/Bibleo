@@ -60,9 +60,13 @@
     height: fit-content;
   }
 
-  #saved-entries {
+  .desktop-display-flex {
     display: flex;
   }
+}
+
+#saved-entries {
+  display: inline;
 }
 
 .margin-auto {
