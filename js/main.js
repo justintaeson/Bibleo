@@ -4,6 +4,7 @@ $newButton.addEventListener('click', generatePage);
 var $homePage = document.querySelector('#home-page');
 var $generatePage = document.querySelector('#generate-page');
 var $journalPage = document.querySelector('#journal-page');
+var $editPage = document.querySelector('#edit-page');
 
 function generatePage(event) {
   $homePage.className = 'hidden';
@@ -99,12 +100,19 @@ function viewSwapper() {
     $generatePage.className = 'hidden';
     $searchPage.className = 'hidden';
     $journalPage.className = 'container flex-wrap';
+  } else if (data.view === 'edit-page') {
+    $homePage.className = 'hidden';
+    $generatePage.className = 'hidden';
+    $searchPage.className = 'hidden';
+    $journalPage.className = 'hidden';
+    $editPage.className = 'container flex-wrap';
+
   }
 }
 
 // allows the user to search for a specific verse
 var $searchBar = document.querySelector('#search-bar');
-var $form = document.querySelector('form');
+var $form = document.querySelector('#search-form');
 $form.addEventListener('submit', searchVerse);
 
 function searchVerse(event) {
@@ -170,6 +178,7 @@ function saveVerse(event) {
   $entryDiv.className = 'column-half margin-auto';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
   $newEntryButton.textContent = 'New';
+  $newEntryButton.id = 'new-entry';
 
   var $verse = document.getElementById('verse').textContent;
   var $verseTitle = document.getElementById('verse-title').textContent;
@@ -180,5 +189,13 @@ function saveVerse(event) {
   data.entries.push(entry);
 
   data.view = 'journal-page';
+  data.editing = document.getElementById('new-entry');
   viewSwapper();
 }
+
+document.addEventListener('click', function (event) {
+  data.view = 'edit-page';
+  if (event.target === data.editing) {
+    viewSwapper();
+  }
+});
