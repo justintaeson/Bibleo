@@ -173,7 +173,7 @@ function saveVerse(event) {
   var $innerButtonDiv = document.createElement('div');
   var $newEntryButton = document.createElement('button');
 
-  $ul.appendChild($li);
+  $ul.prepend($li);
   $li.appendChild($verseDiv);
   $li.appendChild($entryDiv);
   $verseDiv.appendChild($verseP);
@@ -209,7 +209,7 @@ function saveVerse(event) {
 
 document.addEventListener('click', function (event) {
   data.view = 'edit-page';
-  if (event.target.id === data.editing.id) {
+  if (event.target.textContent === 'Edit') {
     var $ul = document.querySelector('#journal-entries');
     $ul.className = 'padding-bottom';
     var $li = document.createElement('li');
