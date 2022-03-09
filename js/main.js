@@ -201,7 +201,7 @@ function saveVerse(event) {
   entry.title = $verseTitle;
   entry.ID = data.nextEntryId;
   data.nextEntryId++;
-  data.entries.unshift(entry);
+  data.entries.push(entry);
 
   data.view = 'journal-page';
   viewSwapper();
@@ -209,16 +209,23 @@ function saveVerse(event) {
 
 document.addEventListener('click', function (event) {
   data.view = 'edit-page';
+  var $ul = document.querySelector('#journal-entries');
+  $ul.className = 'padding-bottom';
   if (event.target.textContent === 'Edit') {
-    var $ul = document.querySelector('#journal-entries');
-    $ul.className = 'padding-bottom';
-    var $li = document.createElement('li');
-    var $p = document.createElement('p');
-
-    $ul.appendChild($li);
-    $li.appendChild($p);
-    $p.textContent = data.entries[0].verse;
     viewSwapper();
+    if ($ul.hasChildNodes() === false) {
+      var $li = document.createElement('li');
+      var $p = document.createElement('p');
+      $p.id = 'journal-verse';
+
+      $ul.appendChild($li);
+      $li.appendChild($p);
+      $li.id = data.nextEntryId - 1;
+      $p.textContent = data.entries[data.nextEntryId - 1].verse;
+    } else {
+      var $pVerse = document.getElementById('journal-verse');
+      $pVerse.textContent = data.entries[data.nextEntryId - 1].verse;
+    }
   }
 });
 
@@ -232,8 +239,8 @@ function renderEntry(event) {
   $innerEntryDiv.textContent = $textArea.value;
   $innerEntryDiv.className = 'margin-bottom padding-sides';
 
-  data.entries[0].entry = $textArea.value;
+  data.entries[data.nextEntryId - 1].entry = $textArea.value;
   data.view = 'journal-page';
   viewSwapper();
-
+  $journalForm.reset();
 }
