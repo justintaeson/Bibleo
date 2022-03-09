@@ -84,27 +84,32 @@ function viewSwapper() {
     $generatePage.className = 'hidden';
     $searchPage.className = 'hidden';
     $journalPage.className = 'hidden';
+    $editPage.className = 'hidden';
     $homePage.className = 'container';
   } else if (data.view === 'generate-page') {
     $homePage.className = 'hidden';
     $searchPage.className = 'hidden';
     $journalPage.className = 'hidden';
+    $editPage.className = 'hidden';
     $generatePage.className = 'container flex-wrap align-content-center';
   } else if (data.view === 'search-page') {
     $homePage.className = 'hidden';
     $generatePage.className = 'hidden';
     $journalPage.className = 'hidden';
+    $editPage.className = 'hidden';
     $searchPage.className = 'container flex-wrap align-content-center';
   } else if (data.view === 'journal-page') {
     $homePage.className = 'hidden';
     $generatePage.className = 'hidden';
     $searchPage.className = 'hidden';
+    $editPage.className = 'hidden';
     $journalPage.className = 'container flex-wrap';
   } else if (data.view === 'edit-page') {
     $homePage.className = 'hidden';
     $generatePage.className = 'hidden';
     $searchPage.className = 'hidden';
     $journalPage.className = 'hidden';
+    $editPage.className = 'hidden';
     $editPage.className = 'container flex-wrap';
 
   }
@@ -164,38 +169,71 @@ function saveVerse(event) {
   var $verseDiv = document.createElement('div');
   var $verseP = document.createElement('p');
   var $entryDiv = document.createElement('div');
+  var $innerEntryDiv = document.createElement('div');
+  var $innerButtonDiv = document.createElement('div');
   var $newEntryButton = document.createElement('button');
 
   $ul.appendChild($li);
   $li.appendChild($verseDiv);
   $li.appendChild($entryDiv);
   $verseDiv.appendChild($verseP);
-  $entryDiv.appendChild($newEntryButton);
+  $entryDiv.appendChild($innerEntryDiv);
+  $entryDiv.appendChild($innerButtonDiv);
+  $innerButtonDiv.appendChild($newEntryButton);
 
   $li.className = 'desktop-display-flex';
   $verseDiv.className = 'column-half';
   $verseP.className = 'saved-verse-box';
   $entryDiv.className = 'column-half margin-auto';
+  $innerEntryDiv.id = 'saved-journals';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
-  $newEntryButton.textContent = 'New';
-  $newEntryButton.id = 'new-entry';
+  $newEntryButton.textContent = 'Edit';
+  $newEntryButton.id = 'entry' + data.nextEntryId;
 
   var $verse = document.getElementById('verse').textContent;
   var $verseTitle = document.getElementById('verse-title').textContent;
   $verseP.textContent = $verse + ' - ' + $verseTitle;
 
+  data.editing = document.getElementById($newEntryButton.id);
+
   var entry = {};
   entry.verse = $verseP.textContent;
-  data.entries.push(entry);
+  entry.title = $verseTitle;
+  entry.ID = data.nextEntryId;
+  data.nextEntryId++;
+  data.entries.unshift(entry);
 
   data.view = 'journal-page';
-  data.editing = document.getElementById('new-entry');
   viewSwapper();
 }
 
 document.addEventListener('click', function (event) {
   data.view = 'edit-page';
-  if (event.target === data.editing) {
+  if (event.target.id === data.editing.id) {
+    var $ul = document.querySelector('#journal-entries');
+    $ul.className = 'padding-bottom';
+    var $li = document.createElement('li');
+    var $p = document.createElement('p');
+
+    $ul.appendChild($li);
+    $li.appendChild($p);
+    $p.textContent = data.entries[0].verse;
     viewSwapper();
   }
 });
+
+var $journalForm = document.querySelector('#journal-form');
+$journalForm.addEventListener('submit', renderEntry);
+
+function renderEntry(event) {
+  event.preventDefault();
+  var $textArea = document.querySelector('textarea');
+  var $innerEntryDiv = document.getElementById('saved-journals');
+  $innerEntryDiv.textContent = $textArea.value;
+  $innerEntryDiv.className = 'margin-bottom padding-sides';
+
+  data.entries[0].entry = $textArea.value;
+  data.view = 'journal-page';
+  viewSwapper();
+
+}
