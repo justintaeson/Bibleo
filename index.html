@@ -76,7 +76,7 @@
     </div>
 
     <div id="search-page" class="container flex-wrap align-content-center hidden">
-      <form>
+      <form id="search-form">
         <div class="row height-fit justify-center text-center">
           <input id="search-bar" type="text" placeholder=" i.e. John 3:16">
         </div>
@@ -91,6 +91,20 @@
         <ul id="saved-entries" style="list-style:none" class="margin-top">
         </ul>
       </div>
+    </div>
+
+    <div id="edit-page" class="container flex-wrap hidden">
+      <form id="journal-form" class="margin-auto display-flex flex-direction">
+        <div class="row margin-auto justify-center">
+          <ul style="list-style:none" id="journal-entries"></ul>
+        </div>
+        <div class="row margin-auto justify-center">
+          <textarea id="text-area" name="journal-entry" rows="20" cols="100" placeholder="Start your journal entry..."></textarea>
+        </div>
+        <div class="row margin-auto justify-center">
+          <button id="save-entry" class="margin-auto bold cursor-pointer new-button" type="submit">SAVE</button>
+        </div>
+      </form>
     </div>
   </main>
 
