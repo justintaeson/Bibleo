@@ -70,6 +70,13 @@ function showGenerate(event) {
   viewSwapper();
 }
 
+var $journalLink = document.querySelector('#journal-link');
+$journalLink.addEventListener('click', showJournals);
+function showJournals(event) {
+  data.view = 'journal-page';
+  viewSwapper();
+}
+
 var $searchPage = document.querySelector('#search-page');
 var $searchLink = document.querySelector('#search-link');
 $searchLink.addEventListener('click', showSearch);
@@ -78,7 +85,7 @@ function showSearch(event) {
   viewSwapper();
 }
 
-// universal function to view swap whenver needed
+// global function to view swap pages whenver needed
 function viewSwapper() {
   if (data.view === 'home-page') {
     $generatePage.className = 'hidden';
@@ -187,7 +194,7 @@ function saveVerse(event) {
   $entryDiv.className = 'column-half margin-auto';
   $innerEntryDiv.id = 'saved-journals';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
-  $newEntryButton.textContent = 'Edit';
+  $newEntryButton.textContent = 'New';
   $newEntryButton.id = 'entry' + data.nextEntryId;
 
   var $verse = document.getElementById('verse').textContent;
@@ -212,7 +219,7 @@ document.addEventListener('click', function (event) {
   var $ul = document.querySelector('#journal-entries');
   var $textArea = document.querySelector('textarea');
   $ul.className = 'padding-bottom';
-  if (event.target.textContent === 'Edit') {
+  if (event.target.textContent === 'New') {
     viewSwapper();
 
     if ($ul.hasChildNodes() === false) { // if this is a new entry...
