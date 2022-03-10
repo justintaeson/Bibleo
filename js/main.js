@@ -192,48 +192,49 @@ function saveVerse(event) {
   $verseDiv.className = 'column-half margin-auto';
   $verseP.className = 'saved-verse-box';
   $entryDiv.className = 'column-half margin-auto';
-  $innerEntryDiv.id = 'saved-journals';
+  $innerEntryDiv.id = 'saved-journals' + data.EntryId;
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
-  $newEntryButton.textContent = 'New';
-  $newEntryButton.id = 'entry' + data.nextEntryId;
+  $newEntryButton.textContent = 'Edit';
+  $newEntryButton.id = 'entry' + data.EntryId;
 
   var $verse = document.getElementById('verse').textContent;
   var $verseTitle = document.getElementById('verse-title').textContent;
   $verseP.textContent = $verse + ' - ' + $verseTitle;
 
-  data.editing = document.getElementById($newEntryButton.id);
-
   var entry = {};
   entry.verse = $verseP.textContent;
   entry.title = $verseTitle;
-  entry.ID = data.nextEntryId;
-  data.nextEntryId++;
+  entry.ID = data.EntryId;
+  data.EntryId++;
   data.entries.push(entry);
 
   data.view = 'journal-page';
   viewSwapper();
 }
 
+// listens for clicks on the new/edit button while calling an anonymous function.
 document.addEventListener('click', function (event) {
-  data.view = 'edit-page';
-  var $ul = document.querySelector('#journal-entries');
-  var $textArea = document.querySelector('textarea');
-  $ul.className = 'padding-bottom';
-  if (event.target.textContent === 'New') {
-    viewSwapper();
+  if (event.target.textContent === 'Edit') {
+    data.editing = event.target; // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the ID
+    data.view = 'edit-page'; // set property of view to 'edit-page' in the data model so we can change views
+    var $ul = document.querySelector('#journal-entries'); // grab the ul element so we can append the verse that's been selected
+    var $textArea = document.querySelector('textarea'); // grab the textarea element so we can use to update the textarea box
+    $ul.className = 'padding-bottom'; // add some padding to the bottom of $ul so we can add some spacing between the verse & textarea
+    if (event.target.textContent === 'Edit') { // if the button says edit (which should be all the buttons)
+      viewSwapper(); // change the page view
+    }
 
     if ($ul.hasChildNodes() === false) { // if this is a new entry...
-      var $li = document.createElement('li'); // create a dom tree with the verse you got
-      var $p = document.createElement('p');
-      $p.id = 'journal-verse';
-
-      $ul.appendChild($li);
-      $li.appendChild($p);
-      $p.textContent = data.entries[0].verse; // get the verse in the data entry and set it as the shown verse
-    } else { // if this is not a new entry or you're editing...
+      var $li = document.createElement('li'); // create a new 'li' element
+      var $p = document.createElement('p'); // create a new 'p' element
+      $p.id = 'journal-verse'; // set the id of 'p' to 'journal-verse'
+      $ul.appendChild($li); // append $li to $ul
+      $li.appendChild($p); // append $p to $li
+      $p.textContent = data.entries[getEntryIndex()].verse; // get the verse in the data entry and set it as the shown verse
+    } else { // if this is not a new entry aka you're editing...
       var currentDiv = event.target.closest('li').firstElementChild; // grab the closest li element and its first child which should be a div
       var currentVerse = currentDiv.firstElementChild.textContent; // grab the first child of that div which should be a p element and get its text content
-      var $currentVerse = document.getElementById('journal-verse'); // grab the p elemennt that is used to show the verse
+      var $currentVerse = document.getElementById('journal-verse'); // grab the p element that is used to show the verse
       $currentVerse.textContent = currentVerse; // set the p element that shows the verse to the current verse you decided to journal on
 
       if (data.entries[getEntryIndex()].entry === undefined) {
@@ -251,16 +252,11 @@ $journalForm.addEventListener('submit', saveEntry);
 function saveEntry(event) {
   event.preventDefault(); // prevent the form from reloading
   var $textArea = document.querySelector('textarea'); // select the text area element
-  var $innerEntryDiv = document.querySelector('#saved-journals');
-  $innerEntryDiv.textContent = $textArea.value;
-  $innerEntryDiv.className = 'margin-bottom padding-sides';
+  var $journalContent = document.querySelector('#saved-journals' + getEntryIndex());
+  $journalContent.className = 'margin-bottom padding-sides';
+  $journalContent.textContent = $textArea.value;
+  data.entries[getEntryIndex()].entry = $textArea.value;
 
-  var currentEntry = data.entries[getEntryIndex()].entry;
-  if (currentEntry !== undefined) { // if the text area has something in it when you hit save...
-    $textArea.value = currentEntry;
-  } else {
-    data.entries[getEntryIndex()].entry = $textArea.value;
-  }
   data.view = 'journal-page';
   viewSwapper();
   $journalForm.reset();
@@ -268,10 +264,5 @@ function saveEntry(event) {
 
 // function that gets the current index of the verse you're deciding to edit
 function getEntryIndex() {
-  var $currentVerse = document.getElementById('journal-verse');
-  for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].verse === $currentVerse.textContent) {
-      return i;
-    }
-  }
+  return data.editing.id[5];
 }
