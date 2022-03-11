@@ -192,8 +192,12 @@ function renderEntry(entry) {
   $entryDiv.className = 'column-half margin-auto';
   $innerEntryDiv.id = 'saved-journals';
   $innerEntryDiv.textContent = entry.entry;
+  $newEntryButton.textContent = 'Write Journal Entry';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
-  $newEntryButton.textContent = 'Edit';
+
+  if ($innerEntryDiv.textContent !== '') {
+    $newEntryButton.textContent = 'Edit';
+  }
 
   var $verse = entry.verse;
   var $verseTitle = entry.title;
@@ -235,7 +239,7 @@ function loadedDOMContent(event) {
 
 // listens for clicks on the new/edit button while calling an anonymous function.
 document.addEventListener('click', function (event) {
-  if (event.target.textContent === 'Edit') { // if the user clicks the button and the text content says 'Edit'...
+  if (event.target.textContent === 'Edit' || event.target.textContent === 'Write Journal Entry') { // if the user clicks the button and the text content says 'Edit'...
     var currentDiv = event.target.closest('li').firstElementChild; // grab the closest li element and its first child which should be a div that is a parent of the element which holds the verse
     var currentVerse = currentDiv.firstElementChild.textContent; // grab the first child of that div which should be a p element and get its text content
     data.editing = event.target.closest('li'); // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the id
@@ -275,9 +279,16 @@ function saveEntry(event) {
 
   data.entries[getEntryIndex()].entry = $textArea.value;
 
+  if ($textArea.value.length > 0) {
+    data.editing.lastChild.lastChild.firstChild.textContent = 'Edit';
+  } else {
+    data.editing.lastChild.lastChild.firstChild.textContent = 'Write Journal Entry';
+  }
+
   data.view = 'journal-page';
   viewSwapper();
   $journalForm.reset();
+
 }
 
 // function that gets the current index of the verse you're deciding to edit
