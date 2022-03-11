@@ -190,7 +190,8 @@ function renderEntry(entry) {
   $verseP.className = 'saved-verse-box';
   $verseP.id = 'id' + data.EntryId;
   $entryDiv.className = 'column-half margin-auto';
-  $innerEntryDiv.id = 'saved-journals' + data.EntryId;
+  $innerEntryDiv.id = 'saved-journals';
+  $innerEntryDiv.textContent = entry.entry;
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
   $newEntryButton.textContent = 'Edit';
 
@@ -279,6 +280,7 @@ function saveEntry(event) {
   $journalForm.reset();
 }
 
+// function that gets the current index of the verse you're deciding to edit
 function getEntryIndex() {
   for (let i = 0; i < data.entries.length; i++) {
     if (data.editing.firstChild.textContent === data.entries[i].verse + ' - ' + data.entries[i].title) {
@@ -286,5 +288,3 @@ function getEntryIndex() {
     }
   }
 }
-
-// function that gets the current index of the verse you're deciding to edit
