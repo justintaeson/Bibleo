@@ -194,6 +194,7 @@ function renderEntry(entry) {
   $innerEntryDiv.textContent = entry.entry;
   $newEntryButton.textContent = 'Write Journal Entry';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
+  $newEntryButton.id = 'journal-buttons';
 
   if ($innerEntryDiv.textContent !== '') {
     $newEntryButton.textContent = 'Edit';
@@ -239,7 +240,7 @@ function loadedDOMContent(event) {
 
 // listens for clicks on the new/edit button while calling an anonymous function.
 document.addEventListener('click', function (event) {
-  if (event.target.textContent === 'Edit' || event.target.textContent === 'Write Journal Entry') { // if the user clicks the button and the text content says 'Edit'...
+  if (event.target.id === 'journal-buttons') { // if the user clicks the button and that button has the id 'journal-buttons'
     var currentDiv = event.target.closest('li').firstElementChild; // grab the closest li element and its first child which should be a div that is a parent of the element which holds the verse
     var currentVerse = currentDiv.firstElementChild.textContent; // grab the first child of that div which should be a p element and get its text content
     data.editing = event.target.closest('li'); // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the id
@@ -254,15 +255,17 @@ document.addEventListener('click', function (event) {
       var $li = document.createElement('li'); // create a new 'li' element
       var $p = document.createElement('p'); // create a new 'p' element
 
-      $p.id = 'journal-verse'; // set the id of 'p' to 'journal-verse'
+      $p.class = 'journal-verse'; // set the id of 'p' to 'journal-verse'
       $p.textContent = data.editing.firstChild.textContent; // get the verse in the data entry and set it as the shown verse
 
       $ul.appendChild($li); // append $li to $ul
       $li.appendChild($p); // append $p to $li
     } else { // if this is not a new entry aka you're editing...
-      var $editPageVerse = document.getElementById('journal-verse'); // grab the p element that is used to show the verse
+      var $editPageVerse = document.getElementsByClassName('journal-verse'); // grab the p element that is used to show the verse
+
       $editPageVerse.textContent = currentVerse; // set the p element that shows the current verse you decided to journal in the edit page
-      $textArea.value = data.editing.lastChild.firstChild.textContent;
+      var $entryContainer = event.target.closest('.column-half').firstChild;
+      $textArea.value = $entryContainer.textContent;
     }
   }
 });
