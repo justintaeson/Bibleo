@@ -1,3 +1,5 @@
+var $ul = document.querySelector('#saved-entries');
+
 var $newButton = document.querySelector('#new-button');
 $newButton.addEventListener('click', generatePage);
 
@@ -70,6 +72,13 @@ function showGenerate(event) {
   viewSwapper();
 }
 
+var $journalLink = document.querySelector('#journal-link');
+$journalLink.addEventListener('click', showJournals);
+function showJournals(event) {
+  data.view = 'journal-page';
+  viewSwapper();
+}
+
 var $searchPage = document.querySelector('#search-page');
 var $searchLink = document.querySelector('#search-link');
 $searchLink.addEventListener('click', showSearch);
@@ -78,7 +87,7 @@ function showSearch(event) {
   viewSwapper();
 }
 
-// universal function to view swap whenver needed
+// global function to view swap pages whenver needed
 function viewSwapper() {
   if (data.view === 'home-page') {
     $generatePage.className = 'hidden';
@@ -159,12 +168,8 @@ $continueReading.addEventListener('click', function (event) {
 });
 
 // clicking save and creating the DOM tree for that verse
-var $saveButton = document.querySelector('#save-button');
-$saveButton.addEventListener('click', saveVerse);
 
-function saveVerse(event) {
-  var $ul = document.querySelector('#saved-entries');
-
+function renderEntry(entry) {
   var $li = document.createElement('li');
   var $verseDiv = document.createElement('div');
   var $verseP = document.createElement('p');
@@ -173,7 +178,6 @@ function saveVerse(event) {
   var $innerButtonDiv = document.createElement('div');
   var $newEntryButton = document.createElement('button');
 
-  $ul.prepend($li);
   $li.appendChild($verseDiv);
   $li.appendChild($entryDiv);
   $verseDiv.appendChild($verseP);
@@ -184,57 +188,84 @@ function saveVerse(event) {
   $li.className = 'desktop-display-flex';
   $verseDiv.className = 'column-half margin-auto';
   $verseP.className = 'saved-verse-box';
+  $verseP.id = 'id' + data.EntryId;
   $entryDiv.className = 'column-half margin-auto';
   $innerEntryDiv.id = 'saved-journals';
+  $innerEntryDiv.textContent = entry.entry;
+  $newEntryButton.textContent = 'Write Journal Entry';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
-  $newEntryButton.textContent = 'Edit';
-  $newEntryButton.id = 'entry' + data.nextEntryId;
+  $newEntryButton.id = 'journal-buttons';
 
-  var $verse = document.getElementById('verse').textContent;
-  var $verseTitle = document.getElementById('verse-title').textContent;
+  if ($innerEntryDiv.textContent !== '') {
+    $newEntryButton.textContent = 'Edit';
+  }
+
+  var $verse = entry.verse;
+  var $verseTitle = entry.title;
   $verseP.textContent = $verse + ' - ' + $verseTitle;
 
-  data.editing = document.getElementById($newEntryButton.id);
-
-  var entry = {};
-  entry.verse = $verseP.textContent;
-  entry.title = $verseTitle;
-  entry.ID = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.push(entry);
-
-  data.view = 'journal-page';
-  viewSwapper();
+  return $li;
 }
 
+var $saveButton = document.querySelector('#save-button');
+$saveButton.addEventListener('click', saveVerse);
+
+function saveVerse(event) { // function that runs when user decides to save the verse that's generated to them
+  var $verse = document.querySelector('#verse'); // select the element that's going to hold the verse
+  var $verseTitle = document.querySelector('#verse-title'); // select the element that's going to hold the verse title
+  var entryObject = {}; // create a object to store the verse and verse title
+  entryObject.verse = $verse.textContent; // create a verse property in entryObject; assign the textContent of $verse to the verse property
+  entryObject.title = $verseTitle.textContent; // create a title property in entryObject; assign the textContent of $verseTitle to the title property
+  entryObject.id = data.EntryId; // create a id property in entryObject; assign the current entryid of the data model id property
+
+  var newEntry = renderEntry(entryObject); // render that entryObject so that it shows on the journal page
+  $ul.prepend(newEntry); // prepend the rendered object onto to the ul element
+
+  data.EntryId++; // increment the EntryId property by one so the next verse will be assigned this Id
+  data.entries.push(entryObject); // push that object into the entries property array of the data model
+
+  data.view = 'journal-page'; // set the data view to 'journal-page' so it only shows the journal entries
+  viewSwapper(); // run the viewSwapper function
+}
+
+document.addEventListener('DOMContentLoaded', loadedDOMContent);
+
+function loadedDOMContent(event) {
+  var $ul = document.querySelector('#saved-entries');
+  for (var i = 0; i < data.entries.length; i++) {
+    var renderedEntry = renderEntry(data.entries[i]);
+    $ul.append(renderedEntry);
+  }
+}
+
+// listens for clicks on the new/edit button while calling an anonymous function.
 document.addEventListener('click', function (event) {
-  data.view = 'edit-page';
-  var $ul = document.querySelector('#journal-entries');
-  var $textArea = document.querySelector('textarea');
-  $ul.className = 'padding-bottom';
-  if (event.target.textContent === 'Edit') {
-    viewSwapper();
+  if (event.target.id === 'journal-buttons') { // if the user clicks the button and that button has the id 'journal-buttons'
+    data.editing = event.target.closest('li'); // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the id
+    data.view = 'edit-page'; // set property of view to 'edit-page' in the data model so we can change views
 
-    if ($ul.hasChildNodes() === false) { // if this is a new entry...
-      var $li = document.createElement('li'); // create a dom tree with the verse you got
+    var $ul = document.querySelector('#journal-entries'); // grab the ul element so we can append the verse that's been selected
+    var $textArea = document.querySelector('textarea'); // grab the textarea element so we can use to update the textarea box
+    var $currentVerse = data.editing.querySelector('.saved-verse-box');
+    var $entryContainer = data.editing.querySelector('#saved-journals');
+    $ul.className = 'padding-bottom'; // add some padding to the bottom of $ul so we can add some spacing between the verse & textarea
+
+    if ($ul.firstChild === null) {
+      var $li = document.createElement('li'); // create a new 'li' element
       var $p = document.createElement('p');
-      $p.id = 'journal-verse';
-
-      $ul.appendChild($li);
-      $li.appendChild($p);
-      $p.textContent = data.entries[0].verse; // get the verse in the data entry and set it as the shown verse
-    } else { // if this is not a new entry or you're editing...
-      var currentDiv = event.target.closest('li').firstElementChild; // grab the closest li element and its first child which should be a div
-      var currentVerse = currentDiv.firstElementChild.textContent; // grab the first child of that div which should be a p element and get its text content
-      var $currentVerse = document.getElementById('journal-verse'); // grab the p elemennt that is used to show the verse
-      $currentVerse.textContent = currentVerse; // set the p element that shows the verse to the current verse you decided to journal on
-
-      if (data.entries[getEntryIndex()].entry === undefined) {
-        $textArea.value = '';
-      } else {
-        $textArea.value = data.entries[getEntryIndex()].entry;
-      }
+      $ul.appendChild($li); // append $li to $ul
+      $li.appendChild($p); // append $p to $li
+      $p.className = 'editPageVerse';
+      $p.textContent = $currentVerse.textContent; // get the verse in the data entry and set it as the shown verse
+      $textArea.value = $entryContainer.textContent;
+    } else {
+      var $editPage = document.querySelector('#edit-page');
+      var $editPageVerse = $editPage.querySelector('.editPageVerse');
+      $editPageVerse.textContent = $currentVerse.textContent;
+      $textArea.value = $entryContainer.textContent;
     }
+
+    viewSwapper(); // change the page view
   }
 });
 
@@ -244,26 +275,28 @@ $journalForm.addEventListener('submit', saveEntry);
 function saveEntry(event) {
   event.preventDefault(); // prevent the form from reloading
   var $textArea = document.querySelector('textarea'); // select the text area element
-  var $innerEntryDiv = document.querySelector('#saved-journals');
-  $innerEntryDiv.textContent = $textArea.value;
-  $innerEntryDiv.className = 'margin-bottom padding-sides';
+  var $journalContent = data.editing.lastChild.firstChild;
+  $journalContent.textContent = $textArea.value;
+  $journalContent.className = 'margin-bottom padding-sides';
 
-  var currentEntry = data.entries[getEntryIndex()].entry;
-  if (currentEntry !== undefined) { // if the text area has something in it when you hit save...
-    $textArea.value = currentEntry;
+  data.entries[getEntryIndex()].entry = $textArea.value;
+
+  if ($textArea.value.length > 0) {
+    data.editing.querySelector('button').textContent = 'Edit';
   } else {
-    data.entries[getEntryIndex()].entry = $textArea.value;
+    data.editing.querySelector('button').textContent = 'Write Journal Entry';
   }
+
   data.view = 'journal-page';
   viewSwapper();
   $journalForm.reset();
+
 }
 
 // function that gets the current index of the verse you're deciding to edit
 function getEntryIndex() {
-  var $currentVerse = document.getElementById('journal-verse');
   for (let i = 0; i < data.entries.length; i++) {
-    if (data.entries[i].verse === $currentVerse.textContent) {
+    if (data.editing.firstChild.textContent === data.entries[i].verse + ' - ' + data.entries[i].title) {
       return i;
     }
   }
