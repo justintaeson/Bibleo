@@ -241,12 +241,16 @@ function loadedDOMContent(event) {
 // listens for clicks on the new/edit button while calling an anonymous function.
 document.addEventListener('click', function (event) {
   if (event.target.id === 'journal-buttons') { // if the user clicks the button and that button has the id 'journal-buttons'
-    var currentDiv = event.target.closest('li').firstElementChild; // grab the closest li element and its first child which should be a div that is a parent of the element which holds the verse
-    var currentVerse = currentDiv.firstElementChild.textContent; // grab the first child of that div which should be a p element and get its text content
     data.editing = event.target.closest('li'); // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the id
     var $ul = document.querySelector('#journal-entries'); // grab the ul element so we can append the verse that's been selected
     var $textArea = document.querySelector('textarea'); // grab the textarea element so we can use to update the textarea box
     $ul.className = 'padding-bottom'; // add some padding to the bottom of $ul so we can add some spacing between the verse & textarea
+
+    var $editPageVerse = document.getElementsByClassName('journal-verse'); // grab the p element that is used to show the verse
+    var $currentVerse = data.editing.querySelector('.saved-verse-box');
+    $editPageVerse.textContent = $currentVerse.textContent; // set the p element that shows the current verse you decided to journal in the edit page
+    var $entryContainer = data.editing.querySelector('#saved-journals');
+    $textArea.value = $entryContainer.textContent;
 
     data.view = 'edit-page'; // set property of view to 'edit-page' in the data model so we can change views
     viewSwapper(); // change the page view
@@ -260,12 +264,6 @@ document.addEventListener('click', function (event) {
 
       $ul.appendChild($li); // append $li to $ul
       $li.appendChild($p); // append $p to $li
-    } else { // if this is not a new entry aka you're editing...
-      var $editPageVerse = document.getElementsByClassName('journal-verse'); // grab the p element that is used to show the verse
-
-      $editPageVerse.textContent = currentVerse; // set the p element that shows the current verse you decided to journal in the edit page
-      var $entryContainer = event.target.closest('.column-half').firstChild;
-      $textArea.value = $entryContainer.textContent;
     }
   }
 });
@@ -283,9 +281,9 @@ function saveEntry(event) {
   data.entries[getEntryIndex()].entry = $textArea.value;
 
   if ($textArea.value.length > 0) {
-    data.editing.lastChild.lastChild.firstChild.textContent = 'Edit';
+    data.editing.querySelector('button').textContent = 'Edit';
   } else {
-    data.editing.lastChild.lastChild.firstChild.textContent = 'Write Journal Entry';
+    data.editing.querySelector('button').textContent = 'Write Journal Entry';
   }
 
   data.view = 'journal-page';
