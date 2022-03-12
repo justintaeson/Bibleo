@@ -242,29 +242,30 @@ function loadedDOMContent(event) {
 document.addEventListener('click', function (event) {
   if (event.target.id === 'journal-buttons') { // if the user clicks the button and that button has the id 'journal-buttons'
     data.editing = event.target.closest('li'); // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the id
+    data.view = 'edit-page'; // set property of view to 'edit-page' in the data model so we can change views
+
     var $ul = document.querySelector('#journal-entries'); // grab the ul element so we can append the verse that's been selected
     var $textArea = document.querySelector('textarea'); // grab the textarea element so we can use to update the textarea box
+    var $currentVerse = data.editing.querySelector('.saved-verse-box');
+    var $entryContainer = data.editing.querySelector('#saved-journals');
     $ul.className = 'padding-bottom'; // add some padding to the bottom of $ul so we can add some spacing between the verse & textarea
 
-    var $editPageVerse = document.getElementsByClassName('journal-verse'); // grab the p element that is used to show the verse
-    var $currentVerse = data.editing.querySelector('.saved-verse-box');
-    $editPageVerse.textContent = $currentVerse.textContent; // set the p element that shows the current verse you decided to journal in the edit page
-    var $entryContainer = data.editing.querySelector('#saved-journals');
-    $textArea.value = $entryContainer.textContent;
-
-    data.view = 'edit-page'; // set property of view to 'edit-page' in the data model so we can change views
-    viewSwapper(); // change the page view
-
-    if ($ul.hasChildNodes() === false) { // if this is the first new entry...
+    if ($ul.firstChild === null) {
       var $li = document.createElement('li'); // create a new 'li' element
-      var $p = document.createElement('p'); // create a new 'p' element
-
-      $p.class = 'journal-verse'; // set the id of 'p' to 'journal-verse'
-      $p.textContent = data.editing.firstChild.textContent; // get the verse in the data entry and set it as the shown verse
-
+      var $p = document.createElement('p');
       $ul.appendChild($li); // append $li to $ul
       $li.appendChild($p); // append $p to $li
+      $p.className = 'editPageVerse';
+      $p.textContent = $currentVerse.textContent; // get the verse in the data entry and set it as the shown verse
+      $textArea.value = $entryContainer.textContent;
+    } else {
+      var $editPage = document.querySelector('#edit-page');
+      var $editPageVerse = $editPage.querySelector('.editPageVerse');
+      $editPageVerse.textContent = $currentVerse.textContent;
+      $textArea.value = $entryContainer.textContent;
     }
+
+    viewSwapper(); // change the page view
   }
 });
 
