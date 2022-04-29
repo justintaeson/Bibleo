@@ -1,8 +1,8 @@
 # Bibleo
 
-A web applicaion for Bible readers who want to read and journal about Bible verses.
+A web applicaion for Bible readers who want to read & journal about Bible verses.
 
-As a Bible reader myself, I wanted to create an application that would encourage to read and learn more about the Bible. This inspired me to ultimately make Bibleo which helps me to read the Bible a verse at a time while giving me the option to write & share my thoughts.
+As a Bible reader myself, I wanted to create an application that would encourage me to read & learn more about the Bible. This inspired me to ultimately make Bibleo which helps me to read the Bible a verse at a time while giving me the option to write & share my thoughts.
 
 ## Live Demo
 
@@ -33,7 +33,8 @@ You can check out the application at https://justintaeson.github.io/ajax-project
 
 # Preview
 
-
+![journal](https://user-images.githubusercontent.com/97268025/166007711-1b81821f-2c44-4757-a5c3-6eed062245c1.gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/97268025/166007900-62a7595b-2ce2-453c-b572-e1d3361ad8fe.gif)
 
 ## System Requirements
 
