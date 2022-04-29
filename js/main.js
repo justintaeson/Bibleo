@@ -229,6 +229,7 @@ function loadedDOMContent(event) {
     var renderedEntry = renderEntry(data.entries[i]);
     $ul.append(renderedEntry);
   }
+  data.view = 'home-page';
   viewSwapper();
 }
 
