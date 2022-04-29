@@ -1,4 +1,4 @@
-# Bibleo
+# bibleo
 
 A web application for Bible readers who want to read & journal about Bible verses.
 
