@@ -1,40 +1,50 @@
-var $ul = document.querySelector('#saved-entries');
+const $ul = document.querySelector('#saved-entries');
 
-var $newButton = document.querySelector('#new-button');
+const $newButton = document.querySelector('#new-button');
 $newButton.addEventListener('click', generatePage);
 
-var $homePage = document.querySelector('#home-page');
-var $generatePage = document.querySelector('#generate-page');
-var $journalPage = document.querySelector('#journal-page');
-var $editPage = document.querySelector('#edit-page');
+const $homePage = document.querySelector('#home-page');
+const $generatePage = document.querySelector('#generate-page');
+const $journalPage = document.querySelector('#journal-page');
+const $editPage = document.querySelector('#edit-page');
+const $continueReading = document.querySelector('#continue-reading');
+const $saveButton = document.querySelector('#save-button');
+const $loader = document.querySelector('.lds-dual-ring');
+const $verseBox = document.querySelector('#verse-box');
 
 function generatePage(event) {
-  $homePage.className = 'hidden';
-  $generatePage.className = 'container flex-wrap align-content-center';
   data.view = 'generate-page';
+  viewSwapper();
   getVerse();
 }
 
-// randomizes a verse to the user
 function getVerse() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://labs.bible.org/api/?passage=random&type=json');
+  if (xhr.readyState < 4) {
+    $loader.className = 'lds-dual-ring';
+  }
   xhr.send();
   xhr.addEventListener('load', function () {
+
+    $loader.className = 'lds-dual-ring hidden';
     var response = JSON.parse(xhr.response);
     var $li = document.createElement('li');
     var $h3 = document.createElement('h3');
     $h3.id = 'verse-title';
     var $p = document.createElement('p');
     $p.id = 'verse';
-
     var $ul = document.querySelector('ul');
     $ul.appendChild($li);
     $li.appendChild($h3);
-    $h3.textContent = response[0].bookname + ' ' + response[0].chapter + ':' + response[0].verse;
     $li.appendChild($p);
+    if (response.error) {
+      $h3.textContent = 'Unable to get verse. Please try again.';
+    }
+    $h3.textContent = response[0].bookname + ' ' + response[0].chapter + ':' + response[0].verse;
     $p.textContent = '"' + response[0].text + '" ';
-
+    $continueReading.className = '';
+    $saveButton.className = 'margin-auto bold cursor-pointer new-button width-rem';
   });
 }
 
@@ -45,7 +55,7 @@ $regenerateVerse.addEventListener('click', regenerateVerse);
 function regenerateVerse(event) {
   var $ul = document.querySelector('ul');
   var $li = document.querySelector('li');
-  if ($ul.hasChildNodes() === true) {
+  while ($ul.hasChildNodes() === true) {
     $ul.removeChild($li);
   }
   getVerse();
@@ -55,9 +65,8 @@ var $homeLink = document.querySelector('#home-link');
 $homeLink.addEventListener('click', showHome);
 function showHome(event) {
   data.view = 'home-page';
-  var $ul = document.querySelector('ul');
-  while ($ul.firstChild) {
-    $ul.removeChild($ul.firstChild);
+  while ($verseBox.firstChild) {
+    $verseBox.removeChild($verseBox.firstChild);
   }
   viewSwapper();
 }
@@ -65,11 +74,12 @@ function showHome(event) {
 var $generateLink = document.querySelector('#generate-link');
 $generateLink.addEventListener('click', showGenerate);
 function showGenerate(event) {
-  if (data.view === 'home-page') {
-    getVerse();
-  }
   data.view = 'generate-page';
   viewSwapper();
+  while ($verseBox.hasChildNodes() === true) {
+    $verseBox.removeChild($verseBox.firstChild);
+  }
+  getVerse();
 }
 
 var $journalLink = document.querySelector('#journal-link');
@@ -87,7 +97,6 @@ function showSearch(event) {
   viewSwapper();
 }
 
-// global function to view swap pages whenver needed
 function viewSwapper() {
   if (data.view === 'home-page') {
     $generatePage.className = 'hidden';
@@ -120,17 +129,18 @@ function viewSwapper() {
     $journalPage.className = 'hidden';
     $editPage.className = 'hidden';
     $editPage.className = 'container flex-wrap';
-
   }
 }
 
-// allows the user to search for a specific verse
 var $searchBar = document.querySelector('#search-bar');
 var $form = document.querySelector('#search-form');
 $form.addEventListener('submit', searchVerse);
 
 function searchVerse(event) {
   event.preventDefault();
+  if ($searchBar.value === '') {
+    return;
+  }
   data.view = 'generate-page';
   viewSwapper();
   var $ul = document.querySelector('ul');
@@ -139,35 +149,39 @@ function searchVerse(event) {
   }
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://bible-api.com/' + $searchBar.value);
+  if (xhr.readyState < 4) {
+    $loader.className = 'lds-dual-ring';
+  }
   xhr.send();
   xhr.addEventListener('load', function () {
     var response = JSON.parse(xhr.response);
-
     var $li = document.createElement('li');
     var $h3 = document.createElement('h3');
     $h3.id = 'verse-title';
     var $p = document.createElement('p');
     $p.id = 'verse';
-
     var $ul = document.querySelector('ul');
     $ul.appendChild($li);
     $li.appendChild($h3);
-    $h3.textContent = response.reference;
     $li.appendChild($p);
-    $p.textContent = '"' + response.text + '" ';
-
+    $loader.className = 'lds-dual-ring hidden';
+    if (response.error) {
+      $h3.textContent = 'Invalid Verse';
+      $p.textContent = 'Please make sure your verse is in correct format i.e. "John 3:16"';
+      $continueReading.className = 'hidden';
+      $saveButton.className = 'hidden';
+    } else {
+      $h3.textContent = response.reference;
+      $p.textContent = '"' + response.text + '" ';
+    }
     $form.reset();
   });
 }
 
-// function that sets the link of 'continue reading' to the verse you searched for or received whenever you click on it
-var $continueReading = document.querySelector('#continue-reading');
 $continueReading.addEventListener('click', function (event) {
   var $verseTitle = document.getElementById('verse-title').textContent;
   $continueReading.setAttribute('href', 'https://www.biblegateway.com/passage/?search=' + $verseTitle + '&version=WEB');
 });
-
-// clicking save and creating the DOM tree for that verse
 
 function renderEntry(entry) {
   var $li = document.createElement('li');
@@ -207,25 +221,24 @@ function renderEntry(entry) {
   return $li;
 }
 
-var $saveButton = document.querySelector('#save-button');
 $saveButton.addEventListener('click', saveVerse);
 
-function saveVerse(event) { // function that runs when user decides to save the verse that's generated to them
-  var $verse = document.querySelector('#verse'); // select the element that's going to hold the verse
-  var $verseTitle = document.querySelector('#verse-title'); // select the element that's going to hold the verse title
-  var entryObject = {}; // create a object to store the verse and verse title
-  entryObject.verse = $verse.textContent; // create a verse property in entryObject; assign the textContent of $verse to the verse property
-  entryObject.title = $verseTitle.textContent; // create a title property in entryObject; assign the textContent of $verseTitle to the title property
-  entryObject.id = data.EntryId; // create a id property in entryObject; assign the current entryid of the data model id property
+function saveVerse(event) {
+  var $verse = document.querySelector('#verse');
+  var $verseTitle = document.querySelector('#verse-title');
+  var entryObject = {};
+  entryObject.verse = $verse.textContent;
+  entryObject.title = $verseTitle.textContent;
+  entryObject.id = data.EntryId;
 
-  var newEntry = renderEntry(entryObject); // render that entryObject so that it shows on the journal page
-  $ul.prepend(newEntry); // prepend the rendered object onto to the ul element
+  var newEntry = renderEntry(entryObject);
+  $ul.prepend(newEntry);
 
-  data.EntryId++; // increment the EntryId property by one so the next verse will be assigned this Id
-  data.entries.push(entryObject); // push that object into the entries property array of the data model
+  data.EntryId++;
+  data.entries.push(entryObject);
 
-  data.view = 'journal-page'; // set the data view to 'journal-page' so it only shows the journal entries
-  viewSwapper(); // run the viewSwapper function
+  data.view = 'journal-page';
+  viewSwapper();
 }
 
 document.addEventListener('DOMContentLoaded', loadedDOMContent);
@@ -266,6 +279,22 @@ document.addEventListener('click', function (event) {
     }
 
     viewSwapper(); // change the page view
+  }
+});
+
+var $deleteButton = document.querySelector('#delete-entry');
+$deleteButton.addEventListener('click', () => {
+  if (event.target.id === 'delete-entry') {
+    const verse = data.editing.firstChild.firstChild.textContent;
+    data.editing.remove();
+    for (let i = 0; i < data.entries.length; i++) {
+      const verseWithTitle = data.entries[i].verse + ' - ' + data.entries[i].title;
+      if (verseWithTitle === verse) {
+        data.entries.splice(i, 1);
+        data.view = 'journal-page';
+        viewSwapper();
+      }
+    }
   }
 });
 
