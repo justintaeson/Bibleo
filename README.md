@@ -6,7 +6,7 @@ As a Bible reader myself, I wanted to create an application that would encourage
 
 ## Live Demo
 
-You can check out the application at https://justintaeson.github.io/Bibleo/
+You can check out the application at https://justintaeson.github.io/bibleo/
 
 ## Technologies Used
 
