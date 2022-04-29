@@ -1,8 +1,4 @@
 const $ul = document.querySelector('#saved-entries');
-
-const $newButton = document.querySelector('#new-button');
-$newButton.addEventListener('click', generatePage);
-
 const $homePage = document.querySelector('#home-page');
 const $generatePage = document.querySelector('#generate-page');
 const $journalPage = document.querySelector('#journal-page');
@@ -11,7 +7,16 @@ const $continueReading = document.querySelector('#continue-reading');
 const $saveButton = document.querySelector('#save-button');
 const $loader = document.querySelector('.lds-dual-ring');
 const $verseBox = document.querySelector('#verse-box');
+const $form = document.querySelector('#search-form');
+const $journalForm = document.querySelector('#journal-form');
+const $newButton = document.querySelector('#new-button');
+const $regenerateVerse = document.querySelector('#regenerate-button');
+const $generateLink = document.querySelector('#generate-link');
+const $searchPage = document.querySelector('#search-page');
+const $searchLink = document.querySelector('#search-link');
+const $searchBar = document.querySelector('#search-bar');
 
+$newButton.addEventListener('click', generatePage);
 function generatePage(event) {
   data.view = 'generate-page';
   viewSwapper();
@@ -19,22 +24,21 @@ function generatePage(event) {
 }
 
 function getVerse() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://labs.bible.org/api/?passage=random&type=json');
   if (xhr.readyState < 4) {
     $loader.className = 'lds-dual-ring';
   }
   xhr.send();
   xhr.addEventListener('load', function () {
-
     $loader.className = 'lds-dual-ring hidden';
-    var response = JSON.parse(xhr.response);
-    var $li = document.createElement('li');
-    var $h3 = document.createElement('h3');
+    const response = JSON.parse(xhr.response);
+    const $li = document.createElement('li');
+    const $h3 = document.createElement('h3');
     $h3.id = 'verse-title';
-    var $p = document.createElement('p');
+    const $p = document.createElement('p');
     $p.id = 'verse';
-    var $ul = document.querySelector('ul');
+    const $ul = document.querySelector('ul');
     $ul.appendChild($li);
     $li.appendChild($h3);
     $li.appendChild($p);
@@ -48,20 +52,14 @@ function getVerse() {
   });
 }
 
-// regenerates a verse whenever the user was already given a verse or searched for a verse
-var $regenerateVerse = document.querySelector('#regenerate-button');
 $regenerateVerse.addEventListener('click', regenerateVerse);
-
 function regenerateVerse(event) {
-  var $ul = document.querySelector('ul');
-  var $li = document.querySelector('li');
-  while ($ul.hasChildNodes() === true) {
-    $ul.removeChild($li);
+  while ($verseBox.firstChild) {
+    $verseBox.removeChild($verseBox.firstChild);
   }
   getVerse();
 }
-
-var $homeLink = document.querySelector('#home-link');
+const $homeLink = document.querySelector('#home-link');
 $homeLink.addEventListener('click', showHome);
 function showHome(event) {
   data.view = 'home-page';
@@ -71,7 +69,6 @@ function showHome(event) {
   viewSwapper();
 }
 
-var $generateLink = document.querySelector('#generate-link');
 $generateLink.addEventListener('click', showGenerate);
 function showGenerate(event) {
   data.view = 'generate-page';
@@ -82,15 +79,13 @@ function showGenerate(event) {
   getVerse();
 }
 
-var $journalLink = document.querySelector('#journal-link');
+const $journalLink = document.querySelector('#journal-link');
 $journalLink.addEventListener('click', showJournals);
 function showJournals(event) {
   data.view = 'journal-page';
   viewSwapper();
 }
 
-var $searchPage = document.querySelector('#search-page');
-var $searchLink = document.querySelector('#search-link');
 $searchLink.addEventListener('click', showSearch);
 function showSearch(event) {
   data.view = 'search-page';
@@ -127,15 +122,11 @@ function viewSwapper() {
     $generatePage.className = 'hidden';
     $searchPage.className = 'hidden';
     $journalPage.className = 'hidden';
-    $editPage.className = 'hidden';
     $editPage.className = 'container flex-wrap';
   }
 }
 
-var $searchBar = document.querySelector('#search-bar');
-var $form = document.querySelector('#search-form');
 $form.addEventListener('submit', searchVerse);
-
 function searchVerse(event) {
   event.preventDefault();
   if ($searchBar.value === '') {
@@ -143,9 +134,8 @@ function searchVerse(event) {
   }
   data.view = 'generate-page';
   viewSwapper();
-  var $ul = document.querySelector('ul');
-  while ($ul.firstChild) {
-    $ul.removeChild($ul.firstChild);
+  while ($verseBox.firstChild) {
+    $verseBox.removeChild($verseBox.firstChild);
   }
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://bible-api.com/' + $searchBar.value);
@@ -191,14 +181,12 @@ function renderEntry(entry) {
   var $innerEntryDiv = document.createElement('div');
   var $innerButtonDiv = document.createElement('div');
   var $newEntryButton = document.createElement('button');
-
   $li.appendChild($verseDiv);
   $li.appendChild($entryDiv);
   $verseDiv.appendChild($verseP);
   $entryDiv.appendChild($innerEntryDiv);
   $entryDiv.appendChild($innerButtonDiv);
   $innerButtonDiv.appendChild($newEntryButton);
-
   $li.className = 'desktop-display-flex';
   $verseDiv.className = 'column-half margin-auto';
   $verseP.className = 'saved-verse-box';
@@ -209,20 +197,16 @@ function renderEntry(entry) {
   $newEntryButton.textContent = 'Write Journal Entry';
   $newEntryButton.className = 'margin-auto bold cursor-pointer black-button padding-around';
   $newEntryButton.id = 'journal-buttons';
-
   if ($innerEntryDiv.textContent !== '') {
     $newEntryButton.textContent = 'Edit';
   }
-
   var $verse = entry.verse;
   var $verseTitle = entry.title;
   $verseP.textContent = $verse + ' - ' + $verseTitle;
-
   return $li;
 }
 
 $saveButton.addEventListener('click', saveVerse);
-
 function saveVerse(event) {
   var $verse = document.querySelector('#verse');
   var $verseTitle = document.querySelector('#verse-title');
@@ -230,46 +214,40 @@ function saveVerse(event) {
   entryObject.verse = $verse.textContent;
   entryObject.title = $verseTitle.textContent;
   entryObject.id = data.EntryId;
-
   var newEntry = renderEntry(entryObject);
   $ul.prepend(newEntry);
-
   data.EntryId++;
   data.entries.push(entryObject);
-
   data.view = 'journal-page';
   viewSwapper();
 }
 
 document.addEventListener('DOMContentLoaded', loadedDOMContent);
-
 function loadedDOMContent(event) {
   var $ul = document.querySelector('#saved-entries');
   for (var i = 0; i < data.entries.length; i++) {
     var renderedEntry = renderEntry(data.entries[i]);
     $ul.append(renderedEntry);
   }
+  viewSwapper();
 }
 
-// listens for clicks on the new/edit button while calling an anonymous function.
 document.addEventListener('click', function (event) {
-  if (event.target.id === 'journal-buttons') { // if the user clicks the button and that button has the id 'journal-buttons'
-    data.editing = event.target.closest('li'); // set the editing property of our data model to the event.target which is the button element that you clicked so we can access the id
-    data.view = 'edit-page'; // set property of view to 'edit-page' in the data model so we can change views
-
-    var $ul = document.querySelector('#journal-entries'); // grab the ul element so we can append the verse that's been selected
-    var $textArea = document.querySelector('textarea'); // grab the textarea element so we can use to update the textarea box
+  if (event.target.id === 'journal-buttons') {
+    data.editing = event.target.closest('li');
+    data.view = 'edit-page';
+    var $ul = document.querySelector('#journal-entries');
+    var $textArea = document.querySelector('textarea');
     var $currentVerse = data.editing.querySelector('.saved-verse-box');
     var $entryContainer = data.editing.querySelector('#saved-journals');
-    $ul.className = 'padding-bottom'; // add some padding to the bottom of $ul so we can add some spacing between the verse & textarea
-
+    $ul.className = 'padding-bottom';
     if ($ul.firstChild === null) {
-      var $li = document.createElement('li'); // create a new 'li' element
+      var $li = document.createElement('li');
       var $p = document.createElement('p');
-      $ul.appendChild($li); // append $li to $ul
-      $li.appendChild($p); // append $p to $li
+      $ul.appendChild($li);
+      $li.appendChild($p);
       $p.className = 'editPageVerse';
-      $p.textContent = $currentVerse.textContent; // get the verse in the data entry and set it as the shown verse
+      $p.textContent = $currentVerse.textContent;
       $textArea.value = $entryContainer.textContent;
     } else {
       var $editPage = document.querySelector('#edit-page');
@@ -277,8 +255,7 @@ document.addEventListener('click', function (event) {
       $editPageVerse.textContent = $currentVerse.textContent;
       $textArea.value = $entryContainer.textContent;
     }
-
-    viewSwapper(); // change the page view
+    viewSwapper();
   }
 });
 
@@ -298,31 +275,24 @@ $deleteButton.addEventListener('click', () => {
   }
 });
 
-var $journalForm = document.querySelector('#journal-form');
 $journalForm.addEventListener('submit', saveEntry);
-
 function saveEntry(event) {
-  event.preventDefault(); // prevent the form from reloading
-  var $textArea = document.querySelector('textarea'); // select the text area element
+  event.preventDefault();
+  var $textArea = document.querySelector('textarea');
   var $journalContent = data.editing.lastChild.firstChild;
   $journalContent.textContent = $textArea.value;
   $journalContent.className = 'margin-bottom padding-sides';
-
   data.entries[getEntryIndex()].entry = $textArea.value;
-
   if ($textArea.value.length > 0) {
     data.editing.querySelector('button').textContent = 'Edit';
   } else {
     data.editing.querySelector('button').textContent = 'Write Journal Entry';
   }
-
   data.view = 'journal-page';
   viewSwapper();
   $journalForm.reset();
-
 }
 
-// function that gets the current index of the verse you're deciding to edit
 function getEntryIndex() {
   for (let i = 0; i < data.entries.length; i++) {
     if (data.editing.firstChild.textContent === data.entries[i].verse + ' - ' + data.entries[i].title) {
