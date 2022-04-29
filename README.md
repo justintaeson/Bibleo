@@ -1,8 +1,8 @@
 # Bibleo
 
-A web applicaion for Bible readers who want to read & journal about Bible verses.
+A web application for Bible readers who want to read & journal about Bible verses.
 
-As a Bible reader myself, I wanted to create an application that would encourage me to read & learn more about the Bible. This inspired me to ultimately make Bibleo which helps me to read the Bible a verse at a time while giving me the option to write & share my thoughts.
+As a Bible reader myself, I wanted to create an application that would encourage me to read & learn more about the Bible. This inspired me to ultimately make Bible, which helps me to read the Bible a verse at a time while giving me the option to write & share my thoughts.
 
 ## Live Demo
 
