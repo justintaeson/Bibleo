@@ -33,6 +33,8 @@ You can check out the application at https://justintaeson.github.io/ajax-project
 
 # Preview
 
+![journal](https://user-images.githubusercontent.com/97268025/166007711-1b81821f-2c44-4757-a5c3-6eed062245c1.gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/97268025/166007900-62a7595b-2ce2-453c-b572-e1d3361ad8fe.gif)
 
 
 ## System Requirements
